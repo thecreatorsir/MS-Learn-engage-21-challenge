@@ -7,30 +7,27 @@ const subjectSchema = new Schema({
     type: String,
     required: true,
   },
-  students_opted: [
-    {
-      _id: {
-        type: String,
-      },
-    },
-  ],
-  teachers_opted: [
-    {
-      _id: {
-        type: String,
-      },
-    },
-  ],
   assignments: [
     {
       name: {
         type: String,
+        required: true,
       },
       desc: {
         type: String,
+        required: true,
       },
       _file: {
         type: String,
+        required: true,
+      },
+      uploaded_by: {
+        type: String,
+        required: true,
+      },
+      due: {
+        type: Boolean,
+        default: true,
       },
       responses: [
         {
@@ -40,12 +37,14 @@ const subjectSchema = new Schema({
           student_name: {
             type: String,
           },
-          graded: { type: Boolean },
+          graded: { type: Boolean, default: false },
           grade: { type: Number },
+          file: { type: String, required: true },
         },
       ],
     },
   ],
+
   date: {
     type: Date,
     default: Date.now,
