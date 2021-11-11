@@ -74,7 +74,12 @@ userRoute.post("/login", async (req, res) => {
     const isMatched = await bcypt.compare(password, user.password);
     if (isMatched) {
       // user matched
-      const payload = { id: user.id, name: user.name, email: user.email };
+      const payload = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
       //sign a token
       const token = jwt.sign(payload, keys.secretKey, { expiresIn: 7200 });
       return res.json({

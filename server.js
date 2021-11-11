@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const app = express();
 const userRoute = require("./routes/api/users");
+const dashRoute = require("./routes/api/dashboards");
 const port = 5000;
 
 /*================middlewares====================*/
@@ -33,7 +34,7 @@ connectToDb();
 
 /*==================Apis Routes=======================*/
 app.use("/api/users", userRoute);
-
+app.use("/api/dashboard", dashRoute);
 app.get("/", (req, res) => {
   res.status(200).send("<h1>tested successfully</h1>");
 });
