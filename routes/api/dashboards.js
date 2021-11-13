@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
 const User = mongoose.model("users");
 const passport = require("passport");
-const { getsubjects } = require("../../utils");
+const { getsubjects, getassignment } = require("../../utils");
 
 //   @route api/dashboard/test
 //   @desc test route for dashboard
@@ -78,6 +78,59 @@ dashRoute.post(
   }
 );
 
+// @route api/dashboard/subject/:id/assignment/:aid/responses
+// @desc route for get the responses
+// @access private
+dashRoute.get(
+  "/subject/:id/assignment/:aid/responses",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    if (req.user.role !== "Teacher") {
+      return res.send("Your Are not Authorised to see the responses");
+    }
+    try {
+      const assignment = await getassignment(req.params.id, req.params.aid);
+      return res.json(assignment.responses);
+    } catch (error) {
+      console.log("catch" + error);
+    }
+  }
+);
+
+// @route api/dashboard/subject/:id/assignment/:aid/responses/:res_id
+// @desc route for post a grade for a student
+// @access private
+dashRoute.post(
+  "/subject/:id/assignment/:aid/responses/:res_id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      if (req.user.role !== "Teacher") {
+        return res.send("Your Are not Authorised to give grades");
+      }
+      //finding the subject
+
+      const subject = await Subject.findById(req.params.id);
+      //get the assignment index
+      const asignIndex = subject.assignments
+        .map((assign) => assign._id.toString())
+        .indexOf(req.params.aid);
+
+      // get the response index
+      const resIndex = subject.assignments[asignIndex].responses
+        .map((response) => response._id)
+        .indexOf(req.params.res_id.toString());
+      subject.assignments[asignIndex].responses[resIndex].grade =
+        req.body.grade;
+      subject.assignments[asignIndex].responses[resIndex].graded = true;
+      await subject.save();
+      return res.json(subject.assignments[asignIndex].responses[resIndex]);
+    } catch (error) {
+      console.log("catch" + error);
+    }
+  }
+);
+
 // @route api/dashboard/subject/assignment/:id
 // @desc route for assignment page
 // @access private
@@ -85,21 +138,11 @@ dashRoute.get(
   "/subject/:id/assignment/:aid",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    if (req.user.role !== "Student") {
+      return res.send("Your Are not Authorised to upload solutions");
+    }
     try {
-      if (req.user.role !== "Student") {
-        return res.send("Your Are not Authorised to upload solutions");
-      }
-      const id = req.params.id;
-      const aid = req.params.aid;
-
-      //finding the subject
-      const subject = await Subject.findById(id);
-      //get the assignment
-      const assignment = subject.assignments.map((assign) => {
-        if (assign._id == aid) {
-          return assign;
-        }
-      });
+      const assignment = await getassignment(req.params.id, req.params.aid);
       return res.json(assignment);
     } catch (error) {
       console.log(error);
