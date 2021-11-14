@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import cover from "../../img/cover.jpg";
+import { Link } from "react-router-dom";
 export class Landing extends Component {
   render() {
     return (
@@ -15,13 +15,13 @@ export class Landing extends Component {
               </p>
               <hr />
 
-              <a href='/register' className='btn btn-md-lg btn-primary mr-2'>
+              <Link to='/register' className='btn btn-md-lg btn-primary mr-2'>
                 Register
-              </a>
-              <a href='/login' className='btn btn-md-lg btn-light'>
+              </Link>
+              <Link to='/login' className='btn btn-md-lg btn-light'>
                 {" "}
                 Login{" "}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ userRoute.get("/test", (req, res) => {
 userRoute.post("/register", async (req, res) => {
   try {
     const errors = {};
-    const user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
@@ -49,8 +49,8 @@ userRoute.post("/register", async (req, res) => {
       }
 
       const newUser = new User(createUser);
-      await newUser.save();
-      return res.status(201).json(newUser);
+      user = await newUser.save();
+      return res.status(201).json(user);
     }
   } catch (error) {
     console.log(error);

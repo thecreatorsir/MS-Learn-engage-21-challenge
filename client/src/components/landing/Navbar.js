@@ -1,22 +1,22 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 class Navbar extends Component {
   render() {
     return (
       <nav className='navbar'>
-        <a className='navbar-brand' href='#'>
+        <Link className='navbar-brand' to='/'>
           MS Learn
-        </a>
+        </Link>
         <div className='row'>
-          <a className='nav-link login-link col-4' href='#'>
+          <Link className='nav-link login-link col-4' to='/login'>
             Login
-          </a>
-          <a className='nav-link register-link col-4' href='#'>
+          </Link>
+          <Link className='nav-link register-link col-4' to='register'>
             Register
-          </a>
-          <a className='nav-link user-link col-4' href='#'>
+          </Link>
+          <Link className='nav-link user-link col-4' to='/profile'>
             User
-          </a>
+          </Link>
         </div>
       </nav>
     );

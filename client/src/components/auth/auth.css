@@ -1,0 +1,88 @@
+.auth {
+  width: 400px;
+  margin: 16px auto;
+  font-size: 16px;
+}
+
+/* Reset top and bottom margins from certain elements */
+.auth-header,
+.auth p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* The triangle form is achieved by a CSS hack */
+.auth-triangle {
+  width: 0;
+  margin-right: auto;
+  margin-left: auto;
+  border: 12px solid transparent;
+  border-bottom-color: #28d;
+}
+
+.auth-header {
+  background: #28d;
+  padding: 20px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.auth-container {
+  background: #ebebeb;
+  padding: 12px;
+}
+
+select {
+  font-size: 0.9rem;
+  padding: 1rem 8.6rem;
+}
+
+/* Every row inside .auth-container is defined with p tags */
+.auth p {
+  padding: 12px;
+}
+
+.auth input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 16px;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+}
+
+.auth input[type="email"],
+.auth input[type="password"],
+.auth select {
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+}
+
+/* Text fields' focus effect */
+.auth input[type="email"]:focus,
+.auth input[type="password"]:focus {
+  border-color: #888;
+}
+
+.auth input[type="submit"] {
+  background: #28d;
+  border-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.auth input[type="submit"]:hover {
+  background: #17c;
+}
+
+/* Buttons' focus effect */
+.auth input[type="submit"]:focus {
+  border-color: #05a;
+}
