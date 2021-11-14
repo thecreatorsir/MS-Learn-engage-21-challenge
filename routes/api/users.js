@@ -19,9 +19,19 @@ userRoute.get("/test", (req, res) => {
 userRoute.post("/register", async (req, res) => {
   try {
     const errors = {};
-    let user = await User.findOne({ email: req.body.email });
-    if (user) {
+    let userWithEmail = await User.findOne({ email: req.body.email });
+    let userWithRoll;
+    if (req.body.roll_number) {
+      userWithRoll = await User.findOne({
+        roll_number: req.body.roll_number,
+      });
+    }
+
+    if (userWithEmail) {
       errors.email = "Email already exists";
+      return res.status(400).json(errors);
+    } else if (userWithRoll) {
+      errors.roll_number = "You are using someone else Roll Number";
       return res.status(400).json(errors);
     } else {
       const salt = await bcypt.genSalt(10);

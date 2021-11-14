@@ -35,11 +35,6 @@
   padding: 12px;
 }
 
-select {
-  font-size: 0.9rem;
-  padding: 1rem 8.6rem;
-}
-
 /* Every row inside .auth-container is defined with p tags */
 .auth p {
   padding: 12px;
@@ -55,20 +50,6 @@ select {
   outline: 0;
   font-family: inherit;
   font-size: 0.95em;
-}
-
-.auth input[type="email"],
-.auth input[type="password"],
-.auth select {
-  background: #fff;
-  border-color: #bbb;
-  color: #555;
-}
-
-/* Text fields' focus effect */
-.auth input[type="email"]:focus,
-.auth input[type="password"]:focus {
-  border-color: #888;
 }
 
 .auth input[type="submit"] {

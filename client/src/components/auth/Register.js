@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
+import classname from "classname";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 import "./auth.css";
 class Register extends Component {
   constructor() {
@@ -15,11 +18,16 @@ class Register extends Component {
       y_of_passing: "",
       group: "",
       designation: "",
+      errors: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -28,6 +36,7 @@ class Register extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
+
     const newUser = {};
     newUser.role = this.state.role;
     newUser.name = this.state.name;
@@ -47,25 +56,22 @@ class Register extends Component {
     if (this.state.group !== "") {
       newUser.group = this.state.group;
     }
-
-    try {
-      const res = await axios.post("/api/users/register", newUser);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
+    this.props.registerUser(newUser, this.props.history);
   }
   render() {
+    const { role } = this.state;
+    const { errors } = this.props;
     return (
       <div className='auth'>
         <div className='auth-triangle'></div>
         <h2 className='auth-header'>Register</h2>
-        <form onSubmit={this.onSubmit} className='auth-container'>
+        <form onSubmit={this.onSubmit} className='auth-container form-group'>
           <p>
             <select
               name='role'
               value={this.state.role}
               onChange={this.onChange}
+              className='form-control'
             >
               <option>Teacher</option>
               <option>Student</option>
@@ -78,6 +84,8 @@ class Register extends Component {
               name='name'
               value={this.state.name}
               onChange={this.onChange}
+              className='form-control'
+              required
             />
           </p>
           <p>
@@ -87,7 +95,14 @@ class Register extends Component {
               name='email'
               value={this.state.email}
               onChange={this.onChange}
+              className={classname("form-control", {
+                "is-invalid": errors.email,
+              })}
+              required
             />
+            {errors.email && (
+              <span className='invalid-feedback'>{errors.email}</span>
+            )}
           </p>
           <p>
             <input
@@ -96,63 +111,94 @@ class Register extends Component {
               name='department'
               value={this.state.department}
               onChange={this.onChange}
+              className='form-control'
+              required
             />
           </p>
           <p>
+            <label htmlFor='subjects' className='text-dark'>
+              <small> Choose between Cyber,ML,Software Engineering</small>
+            </label>
             <input
               type='text'
               placeholder='Subjects'
               name='subjects'
               value={this.state.subjects}
               onChange={this.onChange}
+              className='form-control'
+              required
             />
           </p>
+          {role === "Student" ? (
+            <>
+              <p>
+                <input
+                  type='number'
+                  placeholder='Roll number'
+                  name='roll_number'
+                  value={this.state.roll_number}
+                  className={classname("form-control", {
+                    "is-invalid": errors.roll_number,
+                  })}
+                  onChange={this.onChange}
+                />
+                {errors.roll_number && (
+                  <span className='invalid-feedback'>{errors.roll_number}</span>
+                )}
+              </p>
+              <p>
+                <input
+                  type='text'
+                  placeholder='Group'
+                  name='group'
+                  className='form-control'
+                  value={this.state.group}
+                  onChange={this.onChange}
+                />
+              </p>
+              <p>
+                <input
+                  type='number'
+                  placeholder='Graduation Year'
+                  min='2022'
+                  max='2025'
+                  name='y_of_passing'
+                  className='form-control'
+                  value={this.state.y_of_passing}
+                  onChange={this.onChange}
+                />
+              </p>
+            </>
+          ) : (
+            ""
+          )}
+          {role === "Teacher" ? (
+            <>
+              {" "}
+              <p>
+                <input
+                  type='text'
+                  placeholder='Designation'
+                  name='designation'
+                  value={this.state.designation}
+                  className='form-control'
+                  onChange={this.onChange}
+                />
+              </p>
+            </>
+          ) : (
+            ""
+          )}
 
-          <p>
-            <input
-              type='number'
-              placeholder='Roll number'
-              name='roll_number'
-              value={this.state.roll_number}
-              onChange={this.onChange}
-            />
-          </p>
-          <p>
-            <input
-              type='text'
-              placeholder='Group'
-              name='group'
-              value={this.state.group}
-              onChange={this.onChange}
-            />
-          </p>
-          <p>
-            <input
-              type='number'
-              placeholder='Graduation Year'
-              min='2022'
-              max='2025'
-              name='y_of_passing'
-              value={this.state.y_of_passing}
-              onChange={this.onChange}
-            />
-          </p>
-          <p>
-            <input
-              type='text'
-              placeholder='Designation'
-              name='designation'
-              value={this.state.designation}
-              onChange={this.onChange}
-            />
-          </p>
           <p>
             <input
               type='password'
               placeholder='Password'
               name='password'
               value={this.state.password}
+              className='form-control'
               onChange={this.onChange}
+              required
             />
           </p>
           <p>
@@ -163,5 +209,8 @@ class Register extends Component {
     );
   }
 }
-
-export default Register;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
