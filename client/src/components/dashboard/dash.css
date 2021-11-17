@@ -1,0 +1,14 @@
+.card-deck {
+  margin: 6rem 0rem 9.5rem 0rem;
+}
+
+.card-link {
+  text-decoration: none;
+  color: white;
+}
+.card-link:hover {
+  color: yellow;
+}
+.card-body {
+  background: #28d;
+}

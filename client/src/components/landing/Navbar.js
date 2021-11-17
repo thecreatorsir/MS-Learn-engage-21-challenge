@@ -11,7 +11,7 @@ class Navbar extends Component {
     const authlink = (
       <Link
         className='nav-link register-link col-4'
-        to='/'
+        to='/login'
         onClick={(e) => this.logoutClick(e)}
       >
         Logout

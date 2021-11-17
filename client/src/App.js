@@ -11,7 +11,9 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import Footer from "./components/landing/Footer";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/common/PrivateRoute";
+import Subject from "./components/subject/Subject";
 //check for user token
 if (localStorage.jwtToken) {
   //set AuthToken Header
@@ -49,6 +51,12 @@ class App extends Component {
               <Route exact path='/login'>
                 <Login />
               </Route>
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute
+                exact
+                path='/dashboard/subject/:id'
+                component={Subject}
+              />
             </Switch>
             <Footer />
           </div>

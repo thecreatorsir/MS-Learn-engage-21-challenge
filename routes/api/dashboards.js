@@ -67,7 +67,7 @@ dashRoute.post(
       const data = {};
       data.name = req.body.name;
       data.desc = req.body.desc;
-      data._file = req.body._file;
+      data._file = req.body.file;
       data.uploaded_by = req.user.id;
       subject.assignments.unshift(data);
       await subject.save();
