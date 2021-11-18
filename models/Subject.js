@@ -37,6 +37,14 @@ const subjectSchema = new Schema({
           student_name: {
             type: String,
           },
+          roll_num: {
+            type: Number,
+            required: true,
+          },
+          group: {
+            type: String,
+            required: true,
+          },
           graded: { type: Boolean, default: false },
           grade: { type: Number },
           file: { type: String, required: true },

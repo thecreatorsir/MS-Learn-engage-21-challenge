@@ -1,0 +1,40 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getResponses } from "../../actions/dashActions";
+import { Link } from "react-router-dom";
+class Response extends Component {
+  componentDidMount() {
+    this.props.getResponses(
+      this.props.match.params.id,
+      this.props.match.params.aid
+    );
+  }
+  render() {
+    let response = "";
+    if (this.props.subject.responses) {
+      response = this.props.subject.responses.map((res) => (
+        <Link
+          to={`/dashboard/subject/${this.props.match.params.id}/assignment/${this.props.match.params.aid}/responses/${res._id}`}
+          className='list-group-item list-group-item-action'
+          key={res._id}
+        >
+          {res.student_name}
+        </Link>
+      ));
+    }
+    return (
+      <div className='container mt-5'>
+        <div className='jumbotron'>
+          <div className='h1 text-center text-dark'>Responses</div>
+          <div className='list-group assignment-list mt-2'>{response}</div>
+        </div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  subject: state.subject,
+});
+
+export default connect(mapStateToProps, { getResponses })(Response);

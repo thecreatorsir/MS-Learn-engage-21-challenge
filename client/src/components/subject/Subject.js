@@ -2,28 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getSubject, uploadAssignment } from "../../actions/dashActions";
-
-const getAssignment = (assignments, condition) => {
-  if (assignments && Object.keys(assignments).length > 0) {
-    return assignments.map((assign) => {
-      if (assign.due === condition) {
-        return (
-          <a
-            className='list-group-item list-group-item-action'
-            href='#list-item-1'
-            key={assign._id}
-          >
-            {assign.name}
-          </a>
-        );
-      } else return "";
-    });
-  }
-  return "";
-};
-
+import "./sub.css";
 class Subject extends Component {
-  //get the subject everytime the component loads
   constructor() {
     super();
     this.state = {
@@ -33,6 +13,30 @@ class Subject extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.getAssignment = this.getAssignment.bind(this);
+  }
+  getAssignment(assignments, condition, role) {
+    if (assignments && Object.keys(assignments).length > 0) {
+      return assignments.map((assign) => {
+        let url = `/dashboard/subject/${this.props.match.params.id}/assignment/${assign._id}`;
+        if (role === "Teacher") {
+          url += "/responses";
+        }
+
+        if (assign.due === condition) {
+          return (
+            <Link
+              to={url}
+              className='list-group-item list-group-item-action'
+              key={assign._id}
+            >
+              {assign.name}
+            </Link>
+          );
+        } else return "";
+      });
+    }
+    return "";
   }
   onChange(e) {
     this.setState({
@@ -45,17 +49,13 @@ class Subject extends Component {
       desc: this.state.desc,
       file: this.state.file,
     };
-    console.log(newAssignment);
+
     const check = window.confirm("Assigment is going to be uploaded!");
     if (check) {
-      this.props.uploadAssignment(
-        this.props.match.params.id,
-        newAssignment,
-        this.props.history
-      );
+      this.props.uploadAssignment(this.props.match.params.id, newAssignment);
     }
   }
-
+  //get the subject everytime the component loads
   componentDidMount() {
     this.props.getSubject(this.props.match.params.id);
   }
@@ -63,10 +63,10 @@ class Subject extends Component {
     const { role } = this.props.auth.user;
     const { name, assignments } = this.props.subject.subject;
     let showForm = "";
-    let dueAssignment = getAssignment(assignments, true);
+    let dueAssignment = this.getAssignment(assignments, true, role);
 
     let gradingAssignment = "";
-    let gradedAssignment = getAssignment(assignments, false);
+    let gradedAssignment = this.getAssignment(assignments, false, role);
 
     if (role === "Teacher") {
       showForm = (

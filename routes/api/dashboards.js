@@ -166,6 +166,7 @@ dashRoute.post(
 
       //finding the subject
       const subject = await Subject.findById(id);
+      const user = await User.findById(req.user.id);
       // get the index of assignment
       const index = subject.assignments
         .map((assign) => assign._id.toString())
@@ -173,6 +174,8 @@ dashRoute.post(
       const data = {};
       data._id = req.user.id;
       data.student_name = req.user.name;
+      data.roll_num = user.roll_number;
+      data.group = user.group;
       data.file = req.body.file;
       subject.assignments[index].responses.push(data);
       await subject.save();

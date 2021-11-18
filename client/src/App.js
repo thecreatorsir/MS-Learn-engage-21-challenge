@@ -14,6 +14,9 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/common/PrivateRoute";
 import Subject from "./components/subject/Subject";
+import Assignment from "./components/assignment/Assignment";
+import Response from "./components/assignment/Response";
+import Grading from "./components/assignment/Grading";
 //check for user token
 if (localStorage.jwtToken) {
   //set AuthToken Header
@@ -56,6 +59,21 @@ class App extends Component {
                 exact
                 path='/dashboard/subject/:id'
                 component={Subject}
+              />
+              <PrivateRoute
+                exact
+                path='/dashboard/subject/:id/assignment/:aid'
+                component={Assignment}
+              />
+              <PrivateRoute
+                exact
+                path='/dashboard/subject/:id/assignment/:aid/responses'
+                component={Response}
+              />
+              <PrivateRoute
+                exact
+                path='/dashboard/subject/:id/assignment/:aid/responses/:res_id'
+                component={Grading}
               />
             </Switch>
             <Footer />

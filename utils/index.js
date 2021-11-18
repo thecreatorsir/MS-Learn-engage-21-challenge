@@ -8,12 +8,10 @@ const getassignment = async (id, aid) => {
   //finding the subject
   const subject = await Subject.findById(id);
   //get the assignment
-  const assignment = subject.assignments.map((assign) => {
-    if (assign._id == aid) {
-      return assign;
-    }
-  });
-  return assignment[0];
+  const index = subject.assignments
+    .map((assign) => assign._id.toString())
+    .indexOf(aid);
+  return subject.assignments[index];
 };
 module.exports = {
   getsubjects,

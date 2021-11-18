@@ -1,0 +1,19 @@
+.student-info,
+.student-info a {
+  color: white;
+}
+
+.student-info a {
+  text-decoration: underline;
+}
+.student-info a:hover {
+  color: yellow;
+}
+.assignment-list {
+  overflow: auto;
+}
+.grade-input {
+  padding: 0.25rem;
+  border-radius: 7px;
+  border: none;
+}

@@ -1,7 +1,3 @@
-.assignments {
-  height: 30rem;
-}
 .assignment-list {
-  height: 224px;
   overflow: auto;
 }
