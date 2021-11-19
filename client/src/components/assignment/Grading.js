@@ -69,16 +69,18 @@ export class Grading extends Component {
               Click here to Download or view the assignment
             </a>
             <br />
-            <form action='' className='mt-2 mb-2' onSubmit={this.onSubmit}>
+            <form className='form-group mt-2 mb-2' onSubmit={this.onSubmit}>
               <input
                 type='number'
-                className='grade-input'
+                className='form-control grade-input'
                 placeholder='Award Grade'
                 name='grade'
+                min='0'
+                max='10'
                 value={this.state.grade}
                 onChange={this.onChange}
               />
-              <input type='submit' className='btn btn-success ml-3' />
+              <input type='submit' className='btn btn-success ml-2 mt-2' />
             </form>
           </div>
         ) : (

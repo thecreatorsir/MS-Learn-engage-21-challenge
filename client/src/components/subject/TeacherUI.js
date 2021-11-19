@@ -1,0 +1,140 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import AssignContainer from "./AssignContainer";
+import { uploadAssignment } from "../../actions/dashActions";
+import "./sub.css";
+class TeacherUI extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      desc: "",
+      file: "",
+      toggle: false,
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.getAssignment = this.getAssignment.bind(this);
+  }
+  getAssignment(assignments, chk) {
+    if (assignments && Object.keys(assignments).length > 0) {
+      return assignments.map((assign) => {
+        let url = `/dashboard/subject/${this.props.id}/assignment/${assign._id}/responses`;
+        if (assign.due === true && chk === "due") {
+          return (
+            <Link
+              to={url}
+              className='list-group-item list-group-item-action'
+              key={assign._id}
+            >
+              {assign.name}
+            </Link>
+          );
+        } else if (assign.due === false && chk === "graded")
+          return (
+            <div
+              className='list-group-item list-group-item-action'
+              key={assign._id}
+            >
+              {assign.name}
+            </div>
+          );
+        return "";
+      });
+    }
+    return "";
+  }
+  onChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+  onSubmit(e) {
+    const newAssignment = {
+      name: this.state.name,
+      desc: this.state.desc,
+      file: this.state.file,
+    };
+
+    const check = window.confirm("Assigment is going to be uploaded!");
+    if (check) {
+      this.props.uploadAssignment(this.props.id, newAssignment);
+    }
+  }
+  onClick() {
+    this.setState((prevState) => ({
+      toggle: !prevState.toggle,
+    }));
+  }
+
+  render() {
+    const { assigns } = this.props;
+    const dueAssignment = this.getAssignment(assigns, "due");
+    const gradedAssignment = this.getAssignment(assigns, "graded");
+
+    const showForm = (
+      <div className='file-container'>
+        <form className='mt-4 form-group' onSubmit={this.onSubmit}>
+          <label htmlFor='name'>
+            <small>Assignment Name</small>
+          </label>
+          <input
+            type='text'
+            name='name'
+            className='form-control'
+            onChange={this.onChange}
+            value={this.state.name}
+            required
+          />
+          <label htmlFor='desc'>
+            <small>Assignment Description</small>
+          </label>
+          <input
+            type='text'
+            name='desc'
+            className='form-control'
+            onChange={this.onChange}
+            value={this.state.desc}
+            required
+          />
+          <label htmlFor='file'>
+            <small>Upload Assignment on Gdrive and paste link here</small>
+          </label>
+          <input
+            type='text'
+            name='file'
+            className='form-control'
+            onChange={this.onChange}
+            value={this.state.file}
+            required
+          />
+          <input type='submit' className='btn btn-success mt-2 btn-block' />
+        </form>
+      </div>
+    );
+
+    return (
+      <>
+        <button className='btn btn-primary btn-block' onClick={this.onClick}>
+          {this.state.toggle ? "Cancel Upload" : "Upload a new Assignment"}
+        </button>
+        {this.state.toggle ? showForm : ""}
+        <AssignContainer
+          assignments={dueAssignment}
+          message='Due Assignments'
+        />
+        <AssignContainer
+          assignments={gradedAssignment}
+          message='Graded Assignments'
+        />
+      </>
+    );
+  }
+}
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { uploadAssignment })(TeacherUI);

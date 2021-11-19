@@ -7,22 +7,28 @@ class Navbar extends Component {
     this.props.logoutUser();
   }
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     const authlink = (
-      <Link
-        className='nav-link register-link col-4'
-        to='/login'
-        onClick={(e) => this.logoutClick(e)}
-      >
-        Logout
-      </Link>
+      <div className='auth-link-container col-md-12'>
+        <span>
+          ({user.name}-{user.role})
+        </span>
+        <Link
+          className='nav-link register-link'
+          style={{ display: "inline" }}
+          to='/login'
+          onClick={(e) => this.logoutClick(e)}
+        >
+          Logout
+        </Link>
+      </div>
     );
     const guestlink = (
       <>
-        <Link className='nav-link login-link col-4' to='/login'>
+        <Link className='nav-link login-link col-6' to='/login'>
           Login
         </Link>
-        <Link className='nav-link register-link col-4' to='/register'>
+        <Link className='nav-link register-link col-6' to='/register'>
           Register
         </Link>
       </>

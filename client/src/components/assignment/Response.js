@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getResponses } from "../../actions/dashActions";
 import { Link } from "react-router-dom";
+import tick from "../../img/tick.jpg";
 class Response extends Component {
   componentDidMount() {
     this.props.getResponses(
@@ -17,13 +18,29 @@ class Response extends Component {
           to={`/dashboard/subject/${this.props.match.params.id}/assignment/${this.props.match.params.aid}/responses/${res._id}`}
           className='list-group-item list-group-item-action'
           key={res._id}
+          title='click to see the response'
         >
-          {res.student_name}
+          {res.student_name}{" "}
+          {res.graded ? (
+            <span style={{ float: "right" }} title='graded check'>
+              <img src={tick} alt='graded' />
+            </span>
+          ) : (
+            ""
+          )}
         </Link>
       ));
     }
     return (
       <div className='container mt-5'>
+        <div className='btn btn-primary mt-3 mb-3'>
+          <Link
+            to={`/dashboard/subject/${this.props.match.params.id}/`}
+            className='text-white'
+          >
+            Back
+          </Link>
+        </div>
         <div className='jumbotron'>
           <div className='h1 text-center text-dark'>Responses</div>
           <div className='list-group assignment-list mt-2'>{response}</div>
