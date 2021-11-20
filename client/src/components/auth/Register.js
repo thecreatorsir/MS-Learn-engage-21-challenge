@@ -69,7 +69,6 @@ class Register extends Component {
       newUser.group = this.state.group;
     }
     this.props.registerUser(newUser, this.props.history);
-    console.log(this.state.subjects);
   }
   render() {
     const { role } = this.state;
@@ -130,7 +129,10 @@ class Register extends Component {
           </p>
           <p>
             <label htmlFor='subjects' className='text-dark'>
-              <small> Choose between Cyber,ML,Software Engineering</small>
+              <small>
+                {" "}
+                Hold down the Ctrl button to select multiple options
+              </small>
             </label>
             <select
               name='subjects'

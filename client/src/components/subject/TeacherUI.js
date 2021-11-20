@@ -163,12 +163,30 @@ class TeacherUI extends Component {
       </div>
     );
 
+    const showError = (
+      <div
+        className='alert alert-danger alert-dismissible fade show mt-5'
+        role='alert'
+      >
+        <strong>Not Allowed</strong> {this.props.errors?.notAllowed}
+        <button
+          type='button'
+          className='close'
+          data-dismiss='alert'
+          aria-label='Close'
+        >
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+    );
+
     return (
       <>
         <button className='btn btn-primary btn-block' onClick={this.onClick}>
           {this.state.toggle ? "Cancel Upload" : "Upload a new Assignment"}
         </button>
         {this.state.toggle ? showForm : ""}
+        {this.props.errors?.notAllowed ? showError : ""}
         <AssignContainer
           assignments={dueAssignment}
           message='Due Assignments'
@@ -183,6 +201,7 @@ class TeacherUI extends Component {
 }
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, {

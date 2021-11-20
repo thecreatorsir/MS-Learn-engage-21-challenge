@@ -195,11 +195,18 @@ dashRoute.delete(
       return res.send("Your Are not Authorised to delete the assignment");
     }
     try {
+      const errors = {};
       const subject = await Subject.findById(req.params.id);
       const removeIndex = subject.assignments
         .map((assign) => assign._id.toString())
         .indexOf(req.params.aid);
       const removedAssign = subject.assignments[removeIndex];
+      const user = await User.findById(removedAssign.uploaded_by);
+
+      if (user._id != req.user.id) {
+        errors.notAllowed = `Only ${user.name} sir is allowed to delete this assignment`;
+        return res.status(404).json(errors);
+      }
       subject.assignments.splice(removeIndex, 1);
       await subject.save();
       return res.json(removedAssign);
