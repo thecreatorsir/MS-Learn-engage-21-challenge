@@ -45,7 +45,7 @@ export const getSubject = (id) => (dispatch) => {
 export const uploadAssignment = (id, assignData) => (dispatch) => {
   axios
     .post(`/api/dashboard/subject/${id}`, assignData)
-    .then((res) => console.log(res.data))
+    .then((res) => window.location.reload(false))
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
@@ -58,7 +58,7 @@ export const uploadAssignment = (id, assignData) => (dispatch) => {
 export const deleteAssignment = (id, aid) => (dispatch) => {
   axios
     .delete(`/api/dashboard/subject/${id}/assignment/${aid}`)
-    .then((res) => console.log(res.data))
+    .then((res) => window.location.reload(false))
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
@@ -71,7 +71,7 @@ export const deleteAssignment = (id, aid) => (dispatch) => {
 export const updateAssignmentStatus = (id, aid) => (dispatch) => {
   axios
     .put(`/api/dashboard/subject/${id}/assignment/${aid}`)
-    .then((res) => console.log(res.data))
+    .then((res) => window.location.reload(false))
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,

@@ -82,7 +82,6 @@ class TeacherUI extends Component {
       )
     ) {
       this.props.deleteAssignment(this.props.id, aid);
-      window.location.reload(false);
     }
   }
 
@@ -100,6 +99,7 @@ class TeacherUI extends Component {
     });
   }
   onSubmit(e) {
+    e.preventDefault();
     const newAssignment = {
       name: this.state.name,
       desc: this.state.desc,
