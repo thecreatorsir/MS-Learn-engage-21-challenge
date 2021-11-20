@@ -12,7 +12,7 @@ class Register extends Component {
       name: "",
       email: "",
       password: "",
-      subjects: "",
+      subjects: [],
       department: "",
       roll_number: "",
       y_of_passing: "",
@@ -21,6 +21,7 @@ class Register extends Component {
       errors: "",
     };
     this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentDidMount() {
@@ -32,6 +33,17 @@ class Register extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+
+  handleChange(e) {
+    var options = e.target.options;
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    this.setState({ subjects: value });
   }
 
   async onSubmit(e) {
@@ -57,6 +69,7 @@ class Register extends Component {
       newUser.group = this.state.group;
     }
     this.props.registerUser(newUser, this.props.history);
+    console.log(this.state.subjects);
   }
   render() {
     const { role } = this.state;
@@ -119,15 +132,18 @@ class Register extends Component {
             <label htmlFor='subjects' className='text-dark'>
               <small> Choose between Cyber,ML,Software Engineering</small>
             </label>
-            <input
-              type='text'
-              placeholder='Subjects'
+            <select
               name='subjects'
               value={this.state.subjects}
-              onChange={this.onChange}
+              onChange={this.handleChange}
               className='form-control'
               required
-            />
+              multiple={true}
+            >
+              <option value='Cyber Security'>Cyber Security</option>
+              <option value='Machine Learning'>Machine Learning</option>
+              <option value='Software Engineering'>Software Engineering</option>
+            </select>
           </p>
           {role === "Student" ? (
             <>

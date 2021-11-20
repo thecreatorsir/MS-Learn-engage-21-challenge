@@ -21,9 +21,7 @@ dashRoute.get(
   async (req, res) => {
     try {
       const user = await User.findOne(req.user);
-      let subjects = user.subjects;
-      subjects = subjects.slice(0, subjects.length).split(",");
-      const data = await getsubjects(subjects);
+      const data = await getsubjects(user.subjects);
       res.json(data);
     } catch (error) {
       console.log(error);

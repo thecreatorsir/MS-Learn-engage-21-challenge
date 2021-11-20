@@ -21,10 +21,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  subjects: {
-    type: String,
-    required: true,
-  },
+  subjects: [String],
   department: {
     type: String,
     required: true,
