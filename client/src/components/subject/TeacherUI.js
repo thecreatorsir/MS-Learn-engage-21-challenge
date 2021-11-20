@@ -151,7 +151,7 @@ class TeacherUI extends Component {
             <small>Upload Assignment on Gdrive and paste link here</small>
           </label>
           <input
-            type='text'
+            type='url'
             name='file'
             className='form-control'
             onChange={this.onChange}

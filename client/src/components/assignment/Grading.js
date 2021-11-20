@@ -65,9 +65,7 @@ export class Grading extends Component {
             <h1 className='name'>{res.student_name}</h1>
             <h5 className='roll-no'>{res.roll_num}</h5>
             <h5>Group:{res.group}</h5>
-            <a href='https://www.linkedin.com/in/thecreatorsir/'>
-              Click here to Download or view the assignment
-            </a>
+            <a href={res.file}>Click here to Download or view the assignment</a>
             <br />
             <form className='form-group mt-2 mb-2' onSubmit={this.onSubmit}>
               <input

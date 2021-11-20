@@ -59,14 +59,14 @@ class Assignment extends Component {
           </h1>
           <h5>------------------DISCRIPTION----------------------</h5>
           <p>{this.props.subject.assignment.desc}</p>
-          <a href='https://github.com/thecreatorsir/MS-Learn-engage-21-challenge'>
+          <a href={this.props.subject.assignment._file}>
             Click here to Download or view the assignment
           </a>
           <br />
           <form action='' className='form-group mt-4' onSubmit={this.onSubmit}>
             <label htmlFor='file'>Upload Answer</label>
             <input
-              type='text'
+              type='url'
               name='file'
               className='form-control'
               onChange={this.onChange}
