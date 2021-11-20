@@ -59,7 +59,7 @@ class Assignment extends Component {
           </h1>
           <h5>------------------DISCRIPTION----------------------</h5>
           <p>{this.props.subject.assignment.desc}</p>
-          <a href={this.props.subject.assignment._file}>
+          <a href='https://github.com/thecreatorsir/MS-Learn-engage-21-challenge'>
             Click here to Download or view the assignment
           </a>
           <br />

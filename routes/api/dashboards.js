@@ -131,7 +131,7 @@ dashRoute.post(
   }
 );
 
-// @route api/dashboard/subject/assignment/:id
+// @route api/dashboard/subject/:id/assignment/:aid
 // @desc route for assignment page
 // @access private
 dashRoute.get(
@@ -150,7 +150,7 @@ dashRoute.get(
   }
 );
 
-// @route api/dashboard/subject/assignment/:id
+// @route api/dashboard/subject/:id/assignment/:aid
 // @desc route for assignment submission
 // @access private
 dashRoute.post(
@@ -182,6 +182,59 @@ dashRoute.post(
       return res.json(subject.assignments[index]);
     } catch (error) {
       console.log(error);
+    }
+  }
+);
+
+// @route api/dashboard/subject/:id/assignment/:aid
+// @desc route for deleting the assignment
+// @access private
+dashRoute.delete(
+  "/subject/:id/assignment/:aid",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    if (req.user.role !== "Teacher") {
+      return res.send("Your Are not Authorised to delete the assignment");
+    }
+    try {
+      const subject = await Subject.findById(req.params.id);
+      const removeIndex = subject.assignments
+        .map((assign) => assign._id.toString())
+        .indexOf(req.params.aid);
+      const removedAssign = subject.assignments[removeIndex];
+      subject.assignments.splice(removeIndex, 1);
+      await subject.save();
+      return res.json(removedAssign);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+// @route api/dashboard/subject/:id/assignment/:aid
+// @desc route for updating assignment status
+// @access private
+dashRoute.put(
+  "/subject/:id/assignment/:aid",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      if (req.user.role !== "Teacher") {
+        return res.send("Your Are not Authorised to update the status");
+      }
+      //finding the subject
+
+      const subject = await Subject.findById(req.params.id);
+      //get the assignment index
+      const asignIndex = subject.assignments
+        .map((assign) => assign._id.toString())
+        .indexOf(req.params.aid);
+
+      subject.assignments[asignIndex].due = false;
+      await subject.save();
+      return res.json(subject.assignments[asignIndex]);
+    } catch (error) {
+      console.log("catch" + error);
     }
   }
 );

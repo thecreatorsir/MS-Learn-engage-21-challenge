@@ -17,12 +17,16 @@ class StudentUI extends Component {
           .map((res) => res._id)
           .indexOf(this.props.auth.user.id);
         let isgraded = false;
-
-        //response exists
-        if (idx !== -1) isgraded = assign.responses[idx].graded;
-
+        let due = assign.due;
+        let grade = 0;
+        //response exists set values
+        if (idx !== -1) {
+          isgraded = assign.responses[idx].graded;
+          grade = assign.responses[idx].grade;
+        }
         //due assignment
-        if (idx === -1 && chk === "due") {
+        if (idx === -1 && due && chk === "due") {
+          console.log(due);
           return (
             <Link
               to={url}
@@ -32,7 +36,22 @@ class StudentUI extends Component {
               {assign.name}
             </Link>
           );
-        } else if (idx !== -1 && isgraded === condition) {
+        }
+        //missed assignments
+        else if (idx === -1 && !due && chk === "missed") {
+          return (
+            <div
+              className='list-group-item list-group-item-action'
+              key={assign._id}
+              title='Not editable'
+            >
+              {assign.name}
+              <span style={{ float: "right" }}>Your Grade:{grade}</span>
+            </div>
+          );
+        }
+        //grading or graded assignments
+        else if (idx !== -1 && isgraded === condition) {
           return chk === "graded" ? (
             <div
               className='list-group-item list-group-item-action'
@@ -40,6 +59,7 @@ class StudentUI extends Component {
               title='Not editable'
             >
               {assign.name}
+              <span style={{ float: "right" }}>Your Grade:{grade}</span>
             </div>
           ) : (
             <Link
@@ -59,9 +79,10 @@ class StudentUI extends Component {
   render() {
     const { assigns } = this.props;
 
-    let dueAssignment = this.getAssignment(assigns, "due");
-    let gradingAssignment = this.getAssignment(assigns, "grading", false);
-    let gradedAssignment = this.getAssignment(assigns, "graded", true);
+    const dueAssignment = this.getAssignment(assigns, "due");
+    const missedAssignment = this.getAssignment(assigns, "missed");
+    const gradingAssignment = this.getAssignment(assigns, "grading", false);
+    const gradedAssignment = this.getAssignment(assigns, "graded", true);
     return (
       <>
         <AssignContainer
@@ -75,6 +96,10 @@ class StudentUI extends Component {
         <AssignContainer
           assignments={gradedAssignment}
           message='Graded Assignments'
+        />
+        <AssignContainer
+          assignments={missedAssignment}
+          message='Missed Assignments'
         />
       </>
     );

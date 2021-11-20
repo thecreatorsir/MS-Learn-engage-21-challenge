@@ -54,6 +54,32 @@ export const uploadAssignment = (id, assignData) => (dispatch) => {
     );
 };
 
+//action for deleting assignment : for teacher
+export const deleteAssignment = (id, aid) => (dispatch) => {
+  axios
+    .delete(`/api/dashboard/subject/${id}/assignment/${aid}`)
+    .then((res) => console.log(res.data))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//action for updating assignment status : for teacher
+export const updateAssignmentStatus = (id, aid) => (dispatch) => {
+  axios
+    .put(`/api/dashboard/subject/${id}/assignment/${aid}`)
+    .then((res) => console.log(res.data))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 //action for getting the responses : for teacher
 export const getResponses = (id, aid) => (dispatch) => {
   axios

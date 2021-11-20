@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AssignContainer from "./AssignContainer";
-import { uploadAssignment } from "../../actions/dashActions";
+import {
+  uploadAssignment,
+  deleteAssignment,
+  updateAssignmentStatus,
+} from "../../actions/dashActions";
+import del from "../../img/delete.jpg";
+import tick from "../../img/tick.jpg";
 import "./sub.css";
 class TeacherUI extends Component {
   constructor() {
@@ -15,6 +21,8 @@ class TeacherUI extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
+    this.onClickUpdateStatus = this.onClickUpdateStatus.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.getAssignment = this.getAssignment.bind(this);
   }
@@ -30,6 +38,25 @@ class TeacherUI extends Component {
               key={assign._id}
             >
               {assign.name}
+              <span style={{ float: "right" }}>
+                <img
+                  src={tick}
+                  alt='mark as graded'
+                  className='mr-2'
+                  title='mark as graded'
+                  onClick={(e) => {
+                    this.onClickUpdateStatus(e, assign._id);
+                  }}
+                />
+                <img
+                  src={del}
+                  alt='delete assignment'
+                  title='delete assignment'
+                  onClick={(e) => {
+                    this.onClickDelete(e, assign._id);
+                  }}
+                />
+              </span>
             </Link>
           );
         } else if (assign.due === false && chk === "graded")
@@ -37,6 +64,7 @@ class TeacherUI extends Component {
             <div
               className='list-group-item list-group-item-action'
               key={assign._id}
+              title='not editable'
             >
               {assign.name}
             </div>
@@ -46,6 +74,26 @@ class TeacherUI extends Component {
     }
     return "";
   }
+  onClickDelete(e, aid) {
+    e.preventDefault();
+    if (
+      window.confirm(
+        "Are you sure! This will delete the assignment permanently"
+      )
+    ) {
+      this.props.deleteAssignment(this.props.id, aid);
+      window.location.reload(false);
+    }
+  }
+
+  onClickUpdateStatus(e, aid) {
+    e.preventDefault();
+    if (window.confirm("Are you sure! This will be mark as completed")) {
+      this.props.updateAssignmentStatus(this.props.id, aid);
+      window.location.reload(false);
+    }
+  }
+
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -137,4 +185,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { uploadAssignment })(TeacherUI);
+export default connect(mapStateToProps, {
+  uploadAssignment,
+  deleteAssignment,
+  updateAssignmentStatus,
+})(TeacherUI);
