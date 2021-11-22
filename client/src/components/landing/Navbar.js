@@ -10,6 +10,14 @@ class Navbar extends Component {
     const { isAuthenticated, user } = this.props.auth;
     const authlink = (
       <div className='auth-link-container col-md-12'>
+        <a
+          className='btn btn-light btn-sm mr-3'
+          href='https://ms-learn-lets-discuss.herokuapp.com/'
+          target='_blank'
+          rel='noreferrer'
+        >
+          Discuss With Peers
+        </a>
         <span>
           ({user.name}-{user.role})
         </span>
