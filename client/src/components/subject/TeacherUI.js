@@ -96,7 +96,6 @@ class TeacherUI extends Component {
     e.preventDefault();
     if (window.confirm("Are you sure! This will be mark as completed")) {
       this.props.updateAssignmentStatus(this.props.id, aid);
-      window.location.reload(false);
     }
   }
 
