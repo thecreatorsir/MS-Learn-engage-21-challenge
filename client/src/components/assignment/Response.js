@@ -4,6 +4,7 @@ import { getResponses } from "../../actions/dashActions";
 import { Link } from "react-router-dom";
 import tick from "../../img/tick.jpg";
 class Response extends Component {
+  //get all the reponses when component loads
   componentDidMount() {
     this.props.getResponses(
       this.props.match.params.id,
@@ -12,6 +13,8 @@ class Response extends Component {
   }
   render() {
     let response = "";
+
+    // if responses exists then get them using array of links to show it on UI
     if (this.props.subject.responses) {
       response = this.props.subject.responses.map((res) => (
         <Link

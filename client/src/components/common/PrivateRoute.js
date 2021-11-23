@@ -2,6 +2,8 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
+//Boilerplate code to impliment the private routes in the application
+//very important form the security point of view
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}

@@ -8,23 +8,28 @@ class StudentUI extends Component {
     super();
     this.getAssignment = this.getAssignment.bind(this);
   }
+  // function to get student assigmnent based in diffrent checks
   getAssignment(assignments, chk, condition) {
+    // if assignment exists
     if (assignments && Object.keys(assignments).length > 0) {
       return assignments.map((assign) => {
         let url = `/dashboard/subject/${this.props.id}/assignment/${assign._id}`;
 
+        // getting the user response for the assigmnent
         const idx = assign.responses
           .map((res) => res._id)
           .indexOf(this.props.auth.user.id);
         let isgraded = false;
         let due = assign.due;
         let grade = 0;
-        //response exists set values
+
+        //if response exists setting the values
         if (idx !== -1) {
           isgraded = assign.responses[idx].graded;
           grade = assign.responses[idx].grade;
         }
-        //due assignment
+
+        //for due assignment
         if (idx === -1 && due && chk === "due") {
           console.log(due);
           return (
@@ -37,7 +42,7 @@ class StudentUI extends Component {
             </Link>
           );
         }
-        //missed assignments
+        //for missed assignments
         else if (idx === -1 && !due && chk === "missed") {
           return (
             <div
@@ -50,9 +55,10 @@ class StudentUI extends Component {
             </div>
           );
         }
-        //grading or graded assignments
+        //grading or graded assignments based in condition that have been passed
         else if (idx !== -1 && isgraded === condition) {
           return chk === "graded" ? (
+            // if graded the links are not active
             <div
               className='list-group-item list-group-item-action'
               key={assign._id}

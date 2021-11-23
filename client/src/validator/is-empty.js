@@ -1,3 +1,4 @@
+// validator function for checking empty string, object, array etc
 const isEmpty = (value) =>
   value === undefined ||
   value === null ||

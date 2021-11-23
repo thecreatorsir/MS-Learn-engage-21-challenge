@@ -8,6 +8,7 @@ class Navbar extends Component {
   }
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    // auth links of the authenticated users
     const authlink = (
       <div className='auth-link-container col-md-12'>
         <a
@@ -31,6 +32,7 @@ class Navbar extends Component {
         </Link>
       </div>
     );
+    // guest links for unauthenticated users
     const guestlink = (
       <>
         <Link className='nav-link login-link col-6' to='/login'>

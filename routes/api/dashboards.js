@@ -37,7 +37,6 @@ dashRoute.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      //const user = await User.findOne(req.user);
       const id = req.params.id;
       const subject = await Subject.findById(id);
       res.json(subject);
@@ -62,12 +61,15 @@ dashRoute.post(
       }
       const id = req.params.id;
       const subject = await Subject.findById(id);
+      //creating a data object
       const data = {};
       data.name = req.body.name;
       data.desc = req.body.desc;
       data._file = req.body.file;
       data.uploaded_by = req.user.id;
+      // pushing the assignment a the top
       subject.assignments.unshift(data);
+      //save to DB
       await subject.save();
       return res.json(subject.assignments[0]);
     } catch (error) {
@@ -118,9 +120,13 @@ dashRoute.post(
       const resIndex = subject.assignments[asignIndex].responses
         .map((response) => response._id)
         .indexOf(req.params.res_id.toString());
+
+      // update the grade
       subject.assignments[asignIndex].responses[resIndex].grade =
         req.body.grade;
+      //update the grading status
       subject.assignments[asignIndex].responses[resIndex].graded = true;
+      //save to DB
       await subject.save();
       return res.json(subject.assignments[asignIndex].responses[resIndex]);
     } catch (error) {
@@ -169,14 +175,20 @@ dashRoute.post(
       const index = subject.assignments
         .map((assign) => assign._id.toString())
         .indexOf(aid);
+      //getting the data ready
       const data = {};
       data._id = req.user.id;
       data.student_name = req.user.name;
       data.roll_num = user.roll_number;
       data.group = user.group;
       data.file = req.body.file;
+
+      // pusing it to the responses array
       subject.assignments[index].responses.push(data);
+
+      //saving to DB
       await subject.save();
+
       return res.json(subject.assignments[index]);
     } catch (error) {
       console.log(error);
@@ -197,17 +209,26 @@ dashRoute.delete(
     try {
       const errors = {};
       const subject = await Subject.findById(req.params.id);
+      //getting the index to be removed
       const removeIndex = subject.assignments
         .map((assign) => assign._id.toString())
         .indexOf(req.params.aid);
       const removedAssign = subject.assignments[removeIndex];
+
+      //getting the user that has uploaded this assignment
       const user = await User.findById(removedAssign.uploaded_by);
 
+      // if user not match, can't delete the assignment
       if (user._id != req.user.id) {
         errors.notAllowed = `Only ${user.name} sir is allowed to delete this assignment`;
+        errors.subid = req.params.id;
         return res.status(404).json(errors);
       }
+
+      // else delete the assignment
       subject.assignments.splice(removeIndex, 1);
+
+      // save to DB
       await subject.save();
       return res.json(removedAssign);
     } catch (error) {
@@ -235,7 +256,9 @@ dashRoute.put(
         .map((assign) => assign._id.toString())
         .indexOf(req.params.aid);
 
+      // update the assignment status
       subject.assignments[asignIndex].due = false;
+      // save to DB
       await subject.save();
       return res.json(subject.assignments[asignIndex]);
     } catch (error) {

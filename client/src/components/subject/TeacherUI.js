@@ -26,10 +26,12 @@ class TeacherUI extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getAssignment = this.getAssignment.bind(this);
   }
+  // function to get teacher assigmnent based in diffrent checks
   getAssignment(assignments, chk) {
     if (assignments && Object.keys(assignments).length > 0) {
       return assignments.map((assign) => {
         let url = `/dashboard/subject/${this.props.id}/assignment/${assign._id}/responses`;
+        // getting due assignments
         if (assign.due === true && chk === "due") {
           return (
             <Link
@@ -59,7 +61,9 @@ class TeacherUI extends Component {
               </span>
             </Link>
           );
-        } else if (assign.due === false && chk === "graded")
+        }
+        // getting graded assignments
+        else if (assign.due === false && chk === "graded")
           return (
             <div
               className='list-group-item list-group-item-action'
@@ -74,6 +78,8 @@ class TeacherUI extends Component {
     }
     return "";
   }
+
+  // on click event handler for deleting the assignment
   onClickDelete(e, aid) {
     e.preventDefault();
     if (
@@ -85,6 +91,7 @@ class TeacherUI extends Component {
     }
   }
 
+  // on click event handler for updating the status of the assigment
   onClickUpdateStatus(e, aid) {
     e.preventDefault();
     if (window.confirm("Are you sure! This will be mark as completed")) {
@@ -93,11 +100,14 @@ class TeacherUI extends Component {
     }
   }
 
+  // on change event handler of setting up the local state
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
+
+  // on submit event handler for uploading the new assignment
   onSubmit(e) {
     e.preventDefault();
     const newAssignment = {
@@ -111,6 +121,8 @@ class TeacherUI extends Component {
       this.props.uploadAssignment(this.props.id, newAssignment);
     }
   }
+
+  // on click event handler for toggling the upload button
   onClick() {
     this.setState((prevState) => ({
       toggle: !prevState.toggle,
@@ -122,6 +134,7 @@ class TeacherUI extends Component {
     const dueAssignment = this.getAssignment(assigns, "due");
     const gradedAssignment = this.getAssignment(assigns, "graded");
 
+    // redering the assignment upload form
     const showForm = (
       <div className='file-container'>
         <form className='mt-4 form-group' onSubmit={this.onSubmit}>
@@ -163,6 +176,7 @@ class TeacherUI extends Component {
       </div>
     );
 
+    // rendering the authentication error for assigment deleting
     const showError = (
       <div
         className='alert alert-danger alert-dismissible fade show mt-5'
@@ -186,7 +200,11 @@ class TeacherUI extends Component {
           {this.state.toggle ? "Cancel Upload" : "Upload a new Assignment"}
         </button>
         {this.state.toggle ? showForm : ""}
-        {this.props.errors?.notAllowed ? showError : ""}
+        {this.props.errors?.subid === this.props.id
+          ? this.props.errors?.notAllowed
+            ? showError
+            : ""
+          : ""}
         <AssignContainer
           assignments={dueAssignment}
           message='Due Assignments'

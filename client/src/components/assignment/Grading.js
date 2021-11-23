@@ -13,14 +13,20 @@ export class Grading extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getResponse = this.getResponse.bind(this);
   }
+
+  //load the assignment when component mounts to the dom
   componentDidMount() {
     this.props.getSubject(this.props.match.params.id);
   }
+
+  // on chage event handler for setting the state
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
+
+  // on submit event handler for grading the assignment
   onSubmit(e) {
     e.preventDefault();
     const newGrade = {
@@ -36,6 +42,8 @@ export class Grading extends Component {
       );
     }
   }
+
+  // function that returns a perticular response when a teacher click on that response link
   getResponse(assignments, aid, res_id) {
     const asignIndex = assignments
       ? assignments.map((assign) => assign._id.toString()).indexOf(aid)

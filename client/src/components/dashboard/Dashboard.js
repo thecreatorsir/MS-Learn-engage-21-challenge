@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "./dash.css";
 import subCover from "../../img/subCover.jpg";
 class Dashboard extends Component {
+  //loads the subject when component mounts
   componentDidMount() {
     this.props.getSubjects();
   }
@@ -12,6 +13,8 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     const { subjects } = this.props.dash;
     let displaySubjects = "";
+
+    // getting the subject from subjects array
     if (Object.keys(subjects).length > 0) {
       displaySubjects = subjects.map((sub) => {
         return (

@@ -1,5 +1,5 @@
 import React from "react";
-
+// container for rendering the assignments to the UI
 function AssignContainer(props) {
   return (
     <div className='due-assignments mt-5'>

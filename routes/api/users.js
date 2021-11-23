@@ -20,6 +20,8 @@ userRoute.post("/register", async (req, res) => {
   try {
     const errors = {};
     let userWithEmail = await User.findOne({ email: req.body.email });
+
+    //check if user has a roll number
     let userWithRoll;
     if (req.body.roll_number) {
       userWithRoll = await User.findOne({
@@ -27,16 +29,21 @@ userRoute.post("/register", async (req, res) => {
       });
     }
 
+    // if email alrady exists, show err
     if (userWithEmail) {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
-    } else if (userWithRoll) {
+    }
+    // if roll numer already exists
+    else if (userWithRoll) {
       errors.roll_number = "You are using someone else Roll Number";
       return res.status(400).json(errors);
     } else {
+      //password hashing
       const salt = await bcypt.genSalt(10);
       const hash = await bcypt.hash(req.body.password, salt);
 
+      // user creation
       let createUser = {};
       createUser.name = req.body.name;
       createUser.email = req.body.email;
@@ -58,7 +65,9 @@ userRoute.post("/register", async (req, res) => {
         createUser.y_of_passing = req.body.y_of_passing;
       }
 
+      // create new user
       const newUser = new User(createUser);
+      // save to DB
       user = await newUser.save();
       return res.status(201).json(user);
     }
@@ -106,7 +115,7 @@ userRoute.post("/login", async (req, res) => {
 });
 
 //   @route api/users/current
-//   @desc  route for logged in users
+//   @desc  test route for logged in users
 //   @access private
 
 userRoute.get(

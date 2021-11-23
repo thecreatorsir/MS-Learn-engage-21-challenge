@@ -15,11 +15,13 @@ export class Login extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  // redirect to dashboard once login
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
   }
+  // handling statechange and mapping errror to local state
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
@@ -31,12 +33,14 @@ export class Login extends Component {
     }
   }
 
+  // on change event for setting the local state
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
+  // on submit event handler for login the user
   onSubmit(e) {
     e.preventDefault();
     const newUser = {

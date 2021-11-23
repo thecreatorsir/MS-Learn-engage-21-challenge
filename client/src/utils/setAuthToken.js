@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// for setting the auth token for every api request
 const setAuthToken = (token) => {
   if (token) {
     //apply to every request

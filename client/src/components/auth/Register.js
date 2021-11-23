@@ -24,17 +24,22 @@ class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  // redirect to dashboard if authenticated
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
   }
+
+  // on change event handler for setting up the local state
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
+  // for the subject multiselect for updating the state with multiple values
   handleChange(e) {
     var options = e.target.options;
     var value = [];
@@ -46,6 +51,7 @@ class Register extends Component {
     this.setState({ subjects: value });
   }
 
+  // on submit event handler for registering the user
   async onSubmit(e) {
     e.preventDefault();
 
@@ -147,6 +153,7 @@ class Register extends Component {
               <option value='Software Engineering'>Software Engineering</option>
             </select>
           </p>
+          {/* conditional rendering of the fields based on roles */}
           {role === "Student" ? (
             <>
               <p>

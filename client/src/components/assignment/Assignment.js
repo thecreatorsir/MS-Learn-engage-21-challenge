@@ -12,18 +12,23 @@ class Assignment extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  //load the assignment when component mounts to the dom
   componentDidMount() {
     this.props.getAssignment(
       this.props.match.params.id,
       this.props.match.params.aid
     );
   }
+
+  // on chage event handler for setting the state
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
+  // on submit event handler for submitting the assignment
   onSubmit(e) {
     e.preventDefault();
     const newRes = {
