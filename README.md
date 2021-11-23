@@ -49,21 +49,23 @@ It contains all the features a student or teacher will optate for their learning
 - Discussion room for the users of the application
 
 ## The frameworks and liberaries used for building the mslearn are
-- **ReactJS** for client side rendering.
+- **ReactJS** - for client side rendering.
 
-- **Redux** for global state management using flux architecture.
+- **Redux** - for global state management using flux architecture.
 
-- **Bootstrap** for UI design.
+- **Bootstrap** - for UI design.
 
 - **PassportJS** - for user authentication.
 
-- **Axios** for http request and response.
+- **Axios** - for http request and response.
 
 - **Bcrypt** - for creating a hashed password and making the app secure.
 
 - **ExpressJS, NodeJS, Socket.io** - for creating the web application and letting the user communicate.
 
-- **Json web token**, every user of our API or website will be assigned a unique token, and this allows you to store the user state. And once the token expires the user will be automatically prompted to login.
+- **Json web token** - every user of our API or website will be assigned a unique token, and this allows you to store the user state. And once the token expires the user will be automatically prompted to login.
+
+- **MongoDB** - for Data Base
 
 ## Diagrams(TO DO):
 - Overall
