@@ -2,9 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const app = express();
+const path = require("path");
 const userRoute = require("./routes/api/users");
 const dashRoute = require("./routes/api/dashboards");
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 /*================middlewares====================*/
 // for form data parsing
@@ -38,6 +39,16 @@ app.use("/api/dashboard", dashRoute);
 app.get("/", (req, res) => {
   res.status(200).send("<h1>tested successfully</h1>");
 });
+
+//sever static assets if in production
+if (process.env.NODE_ENV === "production") {
+  //set the static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 /*=================Start Server======================*/
 app.listen(port, () => console.log(`listning on port ${port}`));
