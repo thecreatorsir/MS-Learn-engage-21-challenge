@@ -38,6 +38,8 @@ It contains all the features a student or teacher will optate for their learning
 
 - Uploading new assignments by the individual teachers
 
+- User based notification feature.
+
 - Grading of the assignments submitted by the students for the opted subjects.
 
 - Uploading answer assignments by the students to be submitted for evaluation
@@ -67,10 +69,18 @@ It contains all the features a student or teacher will optate for their learning
 
 - **MongoDB** - for Data Base
 
-## Diagrams(TO DO):
-- Overall
+## Diagrams:
+- Admin(Admin has direct access to the DB for this app, so saperate model is not created for it)
+
+<a href="https://ibb.co/gZgDGpy"><img src="https://i.ibb.co/RTHC1m2/admin-usecase.jpg"  alt="admin-usecase" border="0"></a>
+
 - Teacher
+
+<a href="https://ibb.co/n00nx2x"><img src="https://i.ibb.co/9vvVQXQ/Teacher-usecase.jpg" alt="Teacher-usecase" border="0"></a>
+
 - Student
+
+<a href="https://ibb.co/r4ZhF0y"><img src="https://i.ibb.co/nzDy6mk/student-usecase.jpg" alt="student-usecase" border="0"></a>
 
 ## Plan of Action 
 Initialise our MERN project.
@@ -100,6 +110,8 @@ Initialise our MERN project.
 
 - Working on a Discussion app. 
 
+- Adding notifications feature.
+
 ## Security 
 Security is one of the key features for any application to stay protected. In my application I have initialised **user authentication**, wherein the user has to register first and then login to go to a meeting and have conversation with their peers. To ensure proper protection of the password I have used **Bcrypt and hashed the password ten times**, to ensure good protection as well as make it fast.
 **Implemented private route** so that unauthorized users (not registered or logged in) can’t access the private data uploaded by the registered users of the application such as the assignments and responses of the students.
@@ -121,33 +133,33 @@ In my app I have also linked an external multi user chat room which can be anony
 ## Screenshots 
 
 ### Common Screens
-**Landing page - Register page - Login page - Dashboard page**
+**Landing page - Register page - Login page - Dashboard page - Notifications Modal**
 
-<a href="https://ibb.co/5YvMYL2"><img src="https://i.ibb.co/KN70NWm/landing.png" style="width:45%" alt="landing" border="0"></a>
-<a href="https://ibb.co/dbQhwfq"><img src="https://i.ibb.co/DG7qH1y/register.png" style="width:45%" alt="register" border="0"></a>
-<a href="https://ibb.co/q1nD51R"><img src="https://i.ibb.co/j458R4L/login.png" style="width:45%" alt="login" border="0"></a>
-<a href="https://ibb.co/0B7fsVk"><img src="https://i.ibb.co/289jZYw/dashboard.png" style="width:45%" alt="dashboard" border="0"></a>
+<a href="https://ibb.co/gwPX4cP"><img src="https://i.ibb.co/y5YM4xY/landing.png" style="width:45%" alt="landing" border="0"></a>
+<a href="https://ibb.co/bPCHYtm"><img src="https://i.ibb.co/VtzHb69/register.png" style="width:45%" alt="register" border="0" /></a>
+<a href="https://ibb.co/w7FCv8g"><img src="https://i.ibb.co/W04FT75/login.png" style="width:45%" alt="login" border="0"></a>
+<a href="https://ibb.co/nQwfJwL"><img src="https://i.ibb.co/r5QMrQw/dashboard.png" style="width:45%" alt="dashboard" border="0"></a>
+<a href="https://ibb.co/rm3mvK6"><img src="https://i.ibb.co/DtYtLPC/notifications.png" style="width:45%" alt="notifications" border="0"></a>
 
 ### Discussion Window
 **Discusion form - Chat Window**
 
-<a href="https://ibb.co/vZ26QHp"><img src="https://i.ibb.co/SRq4dPb/chat-home.png" style="width:45%" alt="chat-home" border="0"></a>
-<a href="https://ibb.co/BZBKWTY"><img src="https://i.ibb.co/G2R3YCr/chat.png" style="width:45%" alt="chat" border="0"></a>
+<a href="https://ibb.co/bX99G5h"><img src="https://i.ibb.co/SBCCZwT/chat-home.png" style="width:45%" alt="chat-home" border="0"></a>
+<a href="https://ibb.co/LCd9BTN"><img src="https://i.ibb.co/nDMQ4XP/chat.png" style="width:45%" alt="chat" border="0"></a>
 
 ### For teacher only
 **Subject page - Upload Assignment page - Responses page - Grading page**
 
-<a href="https://ibb.co/p2cwTkt"><img src="https://i.ibb.co/Q9LQVx2/teacher-subject.png" style="width:45%" alt="teacher-subject" border="0"></a>
-<a href="https://ibb.co/4Y7f9b6"><img src="https://i.ibb.co/hZyMhGP/upload-assignment.png" style="width:45%" alt="upload-assignment" border="0"></a>
-<a href="https://ibb.co/qJBvQTv"><img src="https://i.ibb.co/vX1Sn0S/responses.png" style="width:45%" alt="responses" border="0"></a>
-<a href="https://ibb.co/2PDwHSD"><img src="https://i.ibb.co/k0RpvJR/grading.png" style="width:45%" alt="grading" border="0"></a>
+<a href="https://ibb.co/2ZzWHKF"><img src="https://i.ibb.co/CPjmD0w/teacher-subject.png" style="width:45%" alt="teacher-subject" border="0"></a>
+<a href="https://ibb.co/sVhwjmN"><img src="https://i.ibb.co/gRGTyjf/upload-assignment.png" style="width:45%" alt="upload-assignment" border="0"></a>
+<a href="https://ibb.co/6BDfYHh"><img src="https://i.ibb.co/9tyCnbX/responses.png" style="width:45%" alt="responses" border="0"></a>
+<a href="https://ibb.co/xGbR1rb"><img src="https://i.ibb.co/TRGF4NG/grading.png" style="width:45%" alt="grading" border="0"></a>
 
 ### For student only
 **Subject1 page - Subject2 page - Respond to Assignment page**
 
-<a href="https://ibb.co/fM6VFJX"><img src="https://i.ibb.co/Jn6WtZc/student-subject1.png" style="width:45%" alt="student-subject1" border="0"></a>
-<a href="https://ibb.co/7QJYWXk"><img src="https://i.ibb.co/bFgWBPb/student-subject2.png" style="width:45%" alt="student-subject2" border="0"></a>
-<a href="https://ibb.co/tb84PRY"><img src="https://i.ibb.co/y8WXB2g/response.png" alt="response" border="0"></a>
-
+<a href="https://ibb.co/H2fwh81"><img src="https://i.ibb.co/FWLZHTN/student-subject1.png" style="width:45%" alt="student-subject1" border="0"></a>
+<a href="https://ibb.co/sWXdqJQ"><img src="https://i.ibb.co/mNPV4Ft/student-subject2.png" style="width:45%" alt="student-subject2" border="0"></a>
+<a href="https://ibb.co/sVJwmn9"><img src="https://i.ibb.co/DRgCVhf/response.png" style="width:45%" alt="response" border="0"></a>
 
 
