@@ -1,6 +1,6 @@
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER } from "./Types";
+import { GET_ERRORS, GET_NOTIFICATIONS, SET_CURRENT_USER } from "./Types";
 import axios from "axios";
 //register user action creator
 export const registerUser = (userData, history) => (dispatch) => {
@@ -45,6 +45,32 @@ export const setCurrentUser = (decoded) => {
     type: SET_CURRENT_USER,
     payload: decoded,
   };
+};
+
+//get the notifications of current user
+export const getNotifications = (id) => async (dispatch) => {
+  axios
+    .get(`/api/users/notifications/${id}`)
+    .then((res) =>
+      dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+// clear notification for the current user
+export const clearNotifications = (id) => (dispatch) => {
+  axios
+    .delete(`/api/users/notifications/${id}`)
+    .then((res) => window.location.reload(false))
+    .catch((err) => console.log(err.response.data));
 };
 
 //logout user

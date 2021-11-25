@@ -1,8 +1,9 @@
-import { SET_CURRENT_USER } from "../actions/Types";
+import { SET_CURRENT_USER, GET_NOTIFICATIONS } from "../actions/Types";
 import isEmpty from "../validator/is-empty";
 const initialstate = {
   isAuthenticated: false,
   user: {},
+  notifications: [],
 };
 
 const authReducer = (state = initialstate, action) => {
@@ -12,6 +13,11 @@ const authReducer = (state = initialstate, action) => {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
+      };
+    case GET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
       };
     default:
       return state;

@@ -115,31 +115,52 @@ userRoute.post("/login", async (req, res) => {
   }
 });
 
-//   @route api/users/current
-//   @desc  test route for logged in users
+//   @route api/users/notifications/:id
+//   @desc  notifications route for logged in users
 //   @access private
-
 userRoute.get(
-  "/current",
+  "/notifications/:id",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.json({ id: req.user._id, name: req.user.name, email: req.user.email });
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      const notifications = user.notifications ? user.notifications : null;
+      return res.json(notifications);
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
-//test notification
-userRoute.get("/notifications", async (req, res) => {
-  try {
-    const updated = await addnotifications(
-      "both",
-      null,
-      "Cyber Security",
-      "theek hai"
-    );
-    return res.json(updated);
-  } catch (err) {
-    console.log(err);
+//   @route api/users/notifications/:id
+//   @desc  clear notifications route for logged in users
+//   @access private
+userRoute.delete(
+  "/notifications/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      let notifications = user.notifications;
+      let blank = [];
+      //set the notification to the empty string
+      user.notifications = blank;
+      user.save();
+      return res.json(notifications);
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
+//test route to add notification
+// userRoute.get("/notifications", async (req, res) => {
+//   const temp = await addnotifications(
+//     "Teacher",
+//     "619930c91ee04731caf9766a",
+//     "Cyber Security",
+//     "test"
+//   );
+//   return res.json(temp);
+// });
 
 module.exports = userRoute;

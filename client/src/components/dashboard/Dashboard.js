@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSubjects } from "../../actions/dashActions";
+import { getNotifications } from "../../actions/authActions";
 import { Link } from "react-router-dom";
 import "./dash.css";
 import subCover from "../../img/subCover.jpg";
@@ -8,6 +9,7 @@ class Dashboard extends Component {
   //loads the subject when component mounts
   componentDidMount() {
     this.props.getSubjects();
+    this.props.getNotifications(this.props.auth.user.id);
   }
   render() {
     const { user } = this.props.auth;
@@ -47,4 +49,6 @@ const mapStateToProps = (state) => ({
   dash: state.dash,
 });
 
-export default connect(mapStateToProps, { getSubjects })(Dashboard);
+export default connect(mapStateToProps, { getSubjects, getNotifications })(
+  Dashboard
+);

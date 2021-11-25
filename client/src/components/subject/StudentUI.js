@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AssignContainer from "./AssignContainer";
+import { getNotifications } from "../../actions/authActions";
 import "./sub.css";
 class StudentUI extends Component {
   constructor() {
     super();
     this.getAssignment = this.getAssignment.bind(this);
+  }
+  componentDidMount() {
+    this.props.getNotifications(this.props.auth.user.id);
   }
   // function to get student assigmnent based in diffrent checks
   getAssignment(assignments, chk, condition) {
@@ -115,4 +119,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(StudentUI);
+export default connect(mapStateToProps, { getNotifications })(StudentUI);
