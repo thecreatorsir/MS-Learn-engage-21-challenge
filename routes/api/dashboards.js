@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Subject = require("../../models/Subject");
 const User = mongoose.model("users");
 const passport = require("passport");
-const { getsubjects, getassignment } = require("../../utils");
+const { getsubjects, getassignment, addnotifications } = require("../../utils");
 
 //   @route api/dashboard/test
 //   @desc test route for dashboard
@@ -69,6 +69,14 @@ dashRoute.post(
       data.uploaded_by = req.user.id;
       // pushing the assignment a the top
       subject.assignments.unshift(data);
+
+      // adding notifications for both the users
+      await addnotifications(
+        "both",
+        null,
+        subject.name,
+        `New Assignment "${req.body.name}" has been added for ${subject.name}`
+      );
       //save to DB
       await subject.save();
       return res.json(subject.assignments[0]);
@@ -126,6 +134,15 @@ dashRoute.post(
         req.body.grade;
       //update the grading status
       subject.assignments[asignIndex].responses[resIndex].graded = true;
+
+      // adding notification for specific student
+      await addnotifications(
+        "Student",
+        req.params.res_id.toString(),
+        subject.name,
+        `You have been awarded a grade for assignment ${subject.assignments[asignIndex].name}`
+      );
+
       //save to DB
       await subject.save();
       return res.json(subject.assignments[asignIndex].responses[resIndex]);
@@ -186,6 +203,21 @@ dashRoute.post(
       // pusing it to the responses array
       subject.assignments[index].responses.push(data);
 
+      // adding notification for the teachers
+      await addnotifications(
+        "Teacher",
+        null,
+        subject.name,
+        `New Response has been added for ${subject.assignments[index].name}`
+      );
+
+      // adding notification for the students
+      await addnotifications(
+        "Student",
+        req.user.id,
+        subject.name,
+        `Your Grading is in progress for ${subject.assignments[index].name}`
+      );
       //saving to DB
       await subject.save();
 
@@ -228,6 +260,14 @@ dashRoute.delete(
       // else delete the assignment
       subject.assignments.splice(removeIndex, 1);
 
+      // adding notification both the users
+      await addnotifications(
+        "both",
+        null,
+        subject.name,
+        `Assignment ${removedAssign.name} has been deleted by ${user.name}`
+      );
+
       // save to DB
       await subject.save();
       return res.json(removedAssign);
@@ -258,6 +298,14 @@ dashRoute.put(
 
       // update the assignment status
       subject.assignments[asignIndex].due = false;
+
+      // notification for all the users
+      await addnotifications(
+        "both",
+        null,
+        subject.name,
+        `Assignment ${subject.assignments[asignIndex].name} has been maked as completed by ${req.user.name}`
+      );
       // save to DB
       await subject.save();
       return res.json(subject.assignments[asignIndex]);

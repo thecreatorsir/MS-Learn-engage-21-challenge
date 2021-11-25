@@ -4,6 +4,7 @@ const bcypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+const { addnotifications } = require("../../utils");
 
 //   @route api/users/test
 //   @desc test route for users
@@ -125,5 +126,20 @@ userRoute.get(
     res.json({ id: req.user._id, name: req.user.name, email: req.user.email });
   }
 );
+
+//test notification
+userRoute.get("/notifications", async (req, res) => {
+  try {
+    const updated = await addnotifications(
+      "both",
+      null,
+      "Cyber Security",
+      "theek hai"
+    );
+    return res.json(updated);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = userRoute;

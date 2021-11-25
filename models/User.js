@@ -38,6 +38,7 @@ const userSchema = new Schema({
   y_of_passing: {
     type: Number,
   },
+  notifications: [String],
   date: {
     type: Date,
     default: Date.now,
